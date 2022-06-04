@@ -1,0 +1,16 @@
+name: sync
+on:
+  schedule:
+  - cron: "*/5 * * * *"
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: sync
+        run: node sync.js
+        env:
+          ETH_RPC: ${{ secrets.ETH_RPC }}
+      - name: pack
+        run: node pack.js
+      - name: pack
+        run: echo yes
