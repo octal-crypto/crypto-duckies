@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<!-- https://octal-crypto.github.io/crypto-duckies -->
+<html>
+    <head>
+        <title>Crypto Duckies</title>
+        <meta charset="utf-8">
+        <meta name="application-name" content="Crypto Duckies">
+        <meta name="color-scheme" content="dark light">
+        <meta name="theme-color" content="#000000">
+        <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+        <link rel="apple-touch-icon" sizes="180x180" href="icons/favicon/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="icons/favicon/favicon-16x16.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="icons/favicon/favicon-32x32.png">
+        <link rel="manifest" href="icons/favicon/manifest.json">
+        <link rel="mask-icon" href="icons/favicon/safari-pinned-tab.svg" color="#000000">
+        <link rel="shortcut icon" href="icons/favicon/favicon.ico">
+        <link rel="stylesheet" href="icons/traits/traits.css">
+    </head>
+    <style>
+        body { text-align:center; margin:0; font-size:17px; }
+        body, button, .button { font-family:monospace;}
+        button:hover, .button:hover, button.open, #gear:hover, .trait-list.open > .trait-header { border-width:2px; padding:1px; border-color: #ffbf00}
+        button.open:hover, button.open:hover, .button.open:hover, .trait-list.open > .trait-header:hover { border-width:3px; padding:0px; border-color: #ffbf00}
+        button, .button { font-size:20px; }
+        button, .button, #gear { cursor:pointer; }
+        button, .button, #gear  {
+            border-width:1px;
+            padding:2px; 
+            border-color: #dba400;
+            background-color:transparent;
+            color:inherit;
+            margin: 8px 0px 0px 0px;
+            line-height: 30px;
+            max-width:350px;
+            width:100%;
+            border-radius: 7px;
+            display: inline-block;
+            box-sizing: border-box;
+            border-style: outset;
+        }
+        #gear:hover { border-color: #ffbf00; }
+        #gear {
+            border-color: transparent;
+            z-index: 1;
+            position: absolute;
+            top:0px;
+            right:0px;
+            margin:0px;
+            width: 40px;
+            height: 40px;
+        }
+        .dark { background-color:black; color:white; }
+        .light  { background-color:white; color:black; }
+
+        ul{
+            text-align: left;
+        }
+
+        a { color:black; font-weight:bold;  }
+        hr { background-color:white; height:1px; border:0; padding:0;margin:0 }
+        #searchTraits.open {
+            border-radius: 10px 10px 0px 0px;
+        }
+        #searchTraits.open::before { content:"-"; }
+        #searchTraits::before {
+            content:"+";
+            font-size:30px;
+            line-height:26px;
+            position:absolute;
+            left:8px;
+        }
+        #idNumber, #owner {
+            padding-left:3px;
+            width:38%;
+            display:inline-block;
+            margin:8px 0px 0px 0px;
+        }
+        #searchId, #searchOwner {
+            width:60%;
+            display:inline-block;
+            margin:8px 0px 0px 0px;
+        }
+        .trait-header::before{
+            font-size:30px;
+            position:absolute;
+            vertical-align: middle;
+            line-height:26px;
+            left:8px;
+            font-family: monospace;
+            box-sizing: border-box;
+        }
+        .trait-list.open > .trait-header {
+            border-radius: 10px 10px 0px 0px;
+        }
+        .trait-list.open > .trait-header::before{content:"-";}
+        .trait-header::before{content:"+";}
+        .trait-value {
+            border-color: #8f6a00;
+            display:none;
+            font-weight: normal;
+            line-height:25px;
+            font-size:17px;
+            border-radius: 0px;
+            margin-top:0px;
+            margin-bottom:0px;
+            width:350px
+        }
+        .trait-value:hover { border-color: #ffbf00;}
+        .trait-list.open > .trait-value { display:block; } 
+        input { font-size:20px; }
+        input:focus {
+            border-color: #dba400;
+            outline-width: 0;
+        }
+        .trait-value::after{ color: transparent; }
+        .trait-value.checked::after{ color: lime; }
+        .trait-value::after{
+            content:"✓";
+            font-size:25px;
+            position:absolute;
+            right:3px;
+        }
+        .hidden { display:none }
+        html { overflow-y: scroll; }
+        .duckie {
+            border-radius: 10px 10px 10px 10px;
+            color:black;
+            margin: 6px;
+            width: 288px;
+            display: inline-block;
+            vertical-align: top;
+        }
+        .id {
+            padding: 7px 10px 7px 10px;
+            font-size: 25px;
+            font-weight: bold;
+        }
+        .traits {
+            font-weight: bold;
+            padding: 6px 10px 7px 10px;
+            height:50px;
+            line-height: 50px;
+        }
+        .traits span {
+            font-size: 18px;
+            line-height: 18px;
+            vertical-align: middle;
+            display: inline-block;
+        }
+        .keyValues {
+            font-size: 18px;
+            padding: 10px 10px 10px 10px;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        canvas {
+           vertical-align: bottom;
+           border-radius: 10px 10px 0 0;
+        }
+
+        .trait-value::before {
+            position:absolute;
+            left:3px;
+            width: 25px;
+            width: 25px;
+        }
+
+        .trait-type-type > button::before { width: 17px;}
+        .trait-type-type.trait-value-imposter::before { width: 16px; }
+        .trait-type-head.trait-value-space-suit::before{ width: 17px; }
+        .trait-type-head.trait-value-raincoat::before{ width: 21px; }
+        .trait-type-head.trait-value-antenna::before{ width: 19px; }
+        .trait-type-head.trait-value-ski-mask::before{ width: 17px; }
+        .trait-type-head.trait-value-ape-mask::before{ width: 22px; }
+        .trait-type-face.trait-value-mole::before{ width: 7px; }
+
+        .tab::after { display: block; }
+
+        .info-btn::after {
+            content: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHN0cm9rZS13aWR0aD0iMS41IiB2aWV3Qm94PSIwIDAgMjUgMjUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTEyIDExLjVWMTYuNSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PC9wYXRoPjxwYXRoIGQ9Ik0xMiA3LjUxTDEyLjAxIDcuNDk4ODkiIHN0cm9rZT0iY3VycmVudENvbG9yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjwvcGF0aD48cGF0aCBkPSJNMTIgMjJDMTcuNTIyOCAyMiAyMiAxNy41MjI4IDIyIDEyQzIyIDYuNDc3MTUgMTcuNTIyOCAyIDEyIDJDNi40NzcxNSAyIDIgNi40NzcxNSAyIDEyQzIgMTcuNTIyOCA2LjQ3NzE1IDIyIDEyIDIyWiIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PC9wYXRoPjwvc3ZnPg==);
+        }
+
+        .links-btn::after {
+            content: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHN0cm9rZS13aWR0aD0iMS41IiB2aWV3Qm94PSIwIDAgMjUgMjUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE0IDExLjk5NzZDMTQgOS41MDU5IDExLjY4MyA3IDguODU3MTQgN0M4LjUyMjUxIDcgNy40MTkwNCA3LjAwMDAxIDcuMTQyODYgNy4wMDAwMUM0LjMwMjU0IDcuMDAwMDEgMiA5LjIzNzUyIDIgMTEuOTk3NkMyIDE0LjM3NiAzLjcwOTczIDE2LjM2NjQgNiAxNi44NzE0QzYuMzY3NTYgMTYuOTUyNSA2Ljc1MDA2IDE2Ljk5NTIgNy4xNDI4NiAxNi45OTUyIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48L3BhdGg+PHBhdGggZD0iTTEwIDExLjk5NzZDMTAgMTQuNDg5MyAxMi4zMTcgMTYuOTk1MiAxNS4xNDI5IDE2Ljk5NTJDMTUuNDc3NiAxNi45OTUyIDE2LjU4MSAxNi45OTUyIDE2Ljg1NzEgMTYuOTk1MkMxOS42OTc1IDE2Ljk5NTIgMjIgMTQuNzU3NyAyMiAxMS45OTc2QzIyIDkuNjE5MiAyMC4yOTAzIDcuNjI4ODQgMTggNy4xMjM4M0MxNy42MzI1IDcuMDQyNTggMTcuMjU5OSA2Ljk5OTk5IDE2Ljg1NzEgNi45OTk5OSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PC9wYXRoPjwvc3ZnPg==);
+        }
+
+        .image-btn::after {
+            content: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHN0cm9rZS13aWR0aD0iMS41IiB2aWV3Qm94PSIwIDAgMjUgMjUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTIxIDMuNlYyMC40QzIxIDIwLjczMTQgMjAuNzMxNCAyMSAyMC40IDIxSDMuNkMzLjI2ODYzIDIxIDMgMjAuNzMxNCAzIDIwLjRWMy42QzMgMy4yNjg2MyAzLjI2ODYzIDMgMy42IDNIMjAuNEMyMC43MzE0IDMgMjEgMy4yNjg2MyAyMSAzLjZaIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48L3BhdGg+PHBhdGggZD0iTTMgMTZMMTAgMTNMMjEgMTgiIHN0cm9rZT0iY3VycmVudENvbG9yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjwvcGF0aD48cGF0aCBkPSJNMTYgMTBDMTQuODk1NCAxMCAxNCA5LjEwNDU3IDE0IDhDMTQgNi44OTU0MyAxNC44OTU0IDYgMTYgNkMxNy4xMDQ2IDYgMTggNi44OTU0MyAxOCA4QzE4IDkuMTA0NTcgMTcuMTA0NiAxMCAxNiAxMFoiIHN0cm9rZT0iY3VycmVudENvbG9yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjwvcGF0aD48L3N2Zz4=);
+        }
+
+        .rarity-btn::after {
+            content: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzAiIGhlaWdodD0iMzAiIHN0cm9rZS13aWR0aD0iMS41IiB2aWV3Qm94PSIwIDAgMjUgMjUiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTE1IDE5SDlWMTIuNVY4LjZDOSA4LjI2ODYzIDkuMjY4NjMgOCA5LjYgOEgxNC40QzE0LjczMTQgOCAxNSA4LjI2ODYzIDE1IDguNlYxNC41VjE5WiIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCI+PC9wYXRoPjxwYXRoIGQ9Ik0xNSA1SDkiIHN0cm9rZT0iY3VycmVudENvbG9yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjwvcGF0aD48cGF0aCBkPSJNMjAuNCAxOUgxNVYxNS4xQzE1IDE0Ljc2ODYgMTUuMjY4NiAxNC41IDE1LjYgMTQuNUgyMC40QzIwLjczMTQgMTQuNSAyMSAxNC43Njg2IDIxIDE1LjFWMTguNEMyMSAxOC43MzE0IDIwLjczMTQgMTkgMjAuNCAxOVoiIHN0cm9rZT0iY3VycmVudENvbG9yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjwvcGF0aD48cGF0aCBkPSJNOSAxOVYxMy4xQzkgMTIuNzY4NiA4LjczMTM3IDEyLjUgOC40IDEyLjVIMy42QzMuMjY4NjMgMTIuNSAzIDEyLjc2ODYgMyAxMy4xVjE4LjRDMyAxOC43MzE0IDMuMjY4NjMgMTkgMy42IDE5SDlaIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48L3BhdGg+PC9zdmc+);
+        }
+
+        ul { margin: 0;}
+        .page {font-size: 19px;height:150px;}
+
+        .tab:first-child{
+            border-radius: 0px 0px 0px 10px;
+        }
+        .tab:last-child{
+            border-radius: 0px 0px 10px 0px;
+        }
+        .tab {
+            vertical-align: bottom;
+            font-size:13px;
+            width:25%;
+            box-sizing:border-box;
+            border-style: solid;
+            border-color:white;
+            border-width: 0px 0px 2px 0px;
+            color: transparent;
+            display:inline-block;
+        }
+        .tab.hidden {border-color: transparent;}
+        .tab > svg {
+            display:block;
+            margin-left: auto;
+            margin-right: auto;
+            color:black;
+        }
+        .tab:hover {
+            border-color:white;
+            color:black;
+            cursor: pointer;
+        }
+        .selected {
+            color: #d6a000;
+        }
+        #settings {
+            font-size: 20px;
+            position: absolute;
+            right: 0px;
+            width: 300px;
+            height: 300px;
+            border-style: solid;
+            border-color: #d6a000;
+            z-index: 1;
+            border-width: 1px;
+            background-color: black;
+        }
+        .key {
+            font-weight: bold;
+        }
+        #results-title {
+            font-size: 19px;
+            line-height: 30px;
+        }
+        #results-title > div {
+            display:inline-block;
+            width:25px;
+            margin: 4px;
+        }
+    </style>
+    <body class="dark">
+
+        <div id ="settings" class="hidden">
+            Settings
+            <br><br><br><br><br><br>
+            Coming soon...
+        </div>
+        <div id="gear">
+            <svg stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 15C13.6569 15 15 13.6569 15 12C15 10.3431 13.6569 9 12 9C10.3431 9 9 10.3431 9 12C9 13.6569 10.3431 15 12 15Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M19.6224 10.3954L18.5247 7.7448L20 6L18 4L16.2647 5.48295L13.5578 4.36974L12.9353 2H10.981L10.3491 4.40113L7.70441 5.51596L6 4L4 6L5.45337 7.78885L4.3725 10.4463L2 11V13L4.40111 13.6555L5.51575 16.2997L4 18L6 20L7.79116 18.5403L10.397 19.6123L11 22H13L13.6045 19.6132L16.2551 18.5155C16.6969 18.8313 18 20 18 20L20 18L18.5159 16.2494L19.6139 13.598L21.9999 12.9772L22 11L19.6224 10.3954Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </div>
+        <br>
+        <img src="icons/logo.png" />
+        <br><br>
+        <div style="position:relative;width:350px; margin-left: auto; margin-right: auto">
+            <div style="display:inline-block;font-size: 0px;padding:0px;width:100%">
+                <button id="searchId">Search ID</button>
+                <div style="display:inline-block;width:2%"></div>
+                <input class="button" id="idNumber" type="number" min="1" max="5000" placeholder="ID" />
+                <!-- <button id="searchOwner">Search Owner</button> -->
+                <!-- <div style="display:inline-block;width:2%"></div>
+                <input class="button" id="owner" type="text" placeholder="ENS/address" /> -->
+            </div>
+            <br>
+            <label class="button" id="searchPhoto">
+                <input id="photo" type="file" accept="image/*" style="display: none;">
+                Search Photo
+            </label>
+            <br>
+            <button id="searchTraits">Search Traits</button>
+            <br>
+            <div id="traits" class="hidden">
+            </div>
+        </div>
+        <br>
+        <div id="duckies"></div>
+        <br>
+    </body>
+    <script src="api.js"></script>
+    <script>
+    var traitsDiv = document.getElementById("traits");
+    var searchTraits = document.getElementById("searchTraits");
+    var gear = document.getElementById("gear");
+    var photo = document.getElementById("photo");
+    var idNumber = document.getElementById("idNumber");
+    var searchId =  document.getElementById("searchId");
+    var duckiesDiv = document.getElementById("duckies");
+ 
+    var scrollListening = false;
+    function addScrollListeners() {
+        if (!scrollListening) {
+            window.addEventListener('scroll', repaint, {passive:true});
+            window.addEventListener('resize', repaint, {passive:true});
+            scrollListening = true;
+        }
+    }
+    function removeScrollListeners() {
+        if (scrollListening) {
+            window.removeEventListener('scroll', repaint, {passive:true});
+            window.removeEventListener('resize', repaint, {passive:true});
+            scrollListening = false;
+        }
+    }
+
+    filters = {};
+    matches = [];
+    pageIndex = 0;
+    pageSize = 10;
+    function repaint() {
+        var fromBottom = (document.documentElement.scrollHeight - document.documentElement.clientHeight) - window.pageYOffset;
+        if (fromBottom < 600 && pageIndex < matches.length) {
+            for (var stop = Math.min(pageIndex + pageSize, matches.length); pageIndex < stop; pageIndex++) {
+
+                var id = matches[pageIndex][0] ?? matches[pageIndex];
+                var percent = matches[pageIndex][1];
+                var panel = getDuckiePanel(id);
+
+                if (percent != null) {
+                    var percentDiv = document.createElement("div");
+                    percentDiv.style.color = getColor(percent);
+                    percentDiv.appendChild(document.createTextNode(" (" + Math.round(percent*1000)/10 + "% match)"));
+
+                    var panelWrapper = document.createElement("div");
+                    panelWrapper.style.display = "inline-block";
+                    panelWrapper.appendChild(percentDiv);
+                    panelWrapper.appendChild(panel);
+                    duckiesDiv.appendChild(panelWrapper)
+                } else {
+                    duckiesDiv.appendChild(panel)
+                }
+            }
+            
+            pageSize = Math.round(pageSize * 1.2);
+            repaint();
+        }
+        if (pageIndex == matches.length){
+            // All duckies painted, don't care about scrolling anymore
+            removeScrollListeners();
+        }
+    }
+
+    
+    Duckies.onReady(function(){
+        // Create trait filters
+        for (var i=0; i < Duckies.traitTypes.length; i++) {
+            var type = Duckies.traitTypes[i];
+            var traitTypeDiv = document.createElement("button");
+            traitTypeDiv.className = "trait-header trait-type-"+type.toLowerCase();
+            traitTypeDiv.textContent = type + " (0/" + Duckies.traitValues[i].length + ")";
+            var traitListDiv =  document.createElement("div");
+            traitListDiv.appendChild(traitTypeDiv)
+            traitListDiv.className = "trait-list trait-type-"+type.toLowerCase();
+
+            traitTypeDiv.onclick = function(traitListDiv) {
+                return function() { traitListDiv.classList.toggle("open") }
+            }(traitListDiv);
+            traitsDiv.appendChild(traitListDiv);
+
+            for (var j=0; j < Duckies.traitValues[i].length; j++)
+            {
+                var value = Duckies.traitValues[i][j];
+                var traitValueDiv = document.createElement("button");
+                traitValueDiv.className = "trait-value trait-value-"+value.toLowerCase().replaceAll(/ /g, "-") + " trait-type-"+type.toLowerCase();
+                traitValueDiv.innerHTML = value;
+                traitListDiv.appendChild(traitValueDiv);
+
+                // Search when trait value is clicked
+                traitValueDiv.onclick = function(i, traitValueDiv, type, value) {
+                    return function() {
+                        var checked = !traitValueDiv.classList.contains("checked");
+                        if (!filters[type]) filters[type] = [];
+                        if (checked) filters[type].push(value);
+                        else {
+                            filters[type].splice(filters[type].indexOf(value),1);
+                            if (filters[type].length == 0) delete filters[type];
+                        }
+                        matches = Duckies.searchTraits(filters);
+                        pageIndex = 0;
+                        pageSize = 10;
+                        requestAnimationFrame(function() {
+                            var checked = traitValueDiv.classList.toggle("checked");
+                            var header = document.getElementsByClassName("trait-header trait-type-"+type.toLowerCase())[0];
+                            var numChecked = parseInt(header.textContent.slice(header.textContent.indexOf("(")+1, header.textContent.indexOf("/")));
+                            header.textContent = type + " (" + (checked ? ++numChecked : --numChecked) + "/" + Duckies.traitValues[i].length + ")";
+                            requestAnimationFrame(function() {
+                                duckiesDiv.innerHTML = "";
+                                var title = document.createElement("div");
+                                title.id = "results-title";
+                                title.innerHTML = "Search: ";
+                                for (var filter in filters) {
+                                    filters[filter].forEach(function(value) {
+                                        title.innerHTML += ('<div class="trait-type-'+filter.toLowerCase() + ' trait-value-' + value.toLowerCase().replaceAll(/ /g, "-")) + '"></div>'
+                                    });
+                                }
+                                title.innerHTML += '</div><br>Found ' + matches.length + ' duckies.<br><br>';
+                                duckiesDiv.appendChild(title);
+                                requestAnimationFrame(function() {
+                                    repaint();
+                                    addScrollListeners();
+                                });
+                            })
+                        })
+                    }
+                }(i, traitValueDiv, type, value);
+            }
+        }
+    });
+
+    function getDuckiePanel(id) {
+        //
+        var bg = Duckies.backgroundColor(id);
+        var duckieDiv = document.createElement('div');
+        duckieDiv.parentElement
+        duckieDiv.style="background-color:rgb("+bg[0]+","+bg[1]+","+bg[2]+")";
+        duckieDiv.className = "duckie";
+        duckieDiv.appendChild(getCanvas(id));
+
+        //
+        var infoDiv = document.createElement("div");
+        infoDiv.className = "info";
+
+        //
+        var idDiv = document.createElement("div");
+        idDiv.className = "id";
+        idDiv.innerText =  id;
+        infoDiv.appendChild(idDiv);
+
+        // Overview tab
+        var overviewPage = document.createElement("div");
+        overviewPage.id = id + "-info-page";
+        overviewPage.className = "page";
+        var traitValues = [];
+        var traits = Duckies.traits(id);
+        for (const trait in traits) {
+            if (trait != "Background" && trait != "Trait Count" && traits[trait] != "None") {
+                traitValues.push(traits[trait]);
+            }
+        }
+
+        //
+        var traitsDiv = document.createElement("div");
+        traitsDiv.className = "traits";
+        var traitsSpan = document.createElement("span");
+        traitsSpan.innerText = traitValues.join(", ");
+        traitsDiv.appendChild(traitsSpan);
+        overviewPage.appendChild(traitsDiv)
+
+        //
+        var keyValues = document.createElement("div");
+        keyValues.className = "keyValues";
+
+        //
+        var rarityKey = document.createElement("span");
+        rarityKey.className = "key";
+        rarityKey.textContent = "Rarity: ";
+        keyValues.appendChild(rarityKey);
+        var rarityValue = document.createElement("span");
+        rarityValue.className = "value";
+        rarityValue.textContent = Math.round(Duckies.rarity(id).reduce(function(p,c){return p+c},0))
+        keyValues.appendChild(rarityValue);
+        keyValues.appendChild(document.createElement("br"));
+
+        //
+        var ownerKey = document.createElement("span");
+        ownerKey.className = "key";
+        ownerKey.textContent = "Owner: ";
+        keyValues.appendChild(ownerKey);
+        var ownerValue = document.createElement("span");
+        ownerValue.className = "value";
+        var owner = Duckies.owner(id);
+        ownerValue.textContent = owner.ens ?? owner.address;
+        keyValues.appendChild(ownerValue);
+        keyValues.appendChild(document.createElement("br"));
+
+        //
+        var migratedKey = document.createElement("span");
+        migratedKey.className = "key";
+        migratedKey.textContent = "Migrated: ";
+        keyValues.appendChild(migratedKey);
+        var migratedValue = document.createElement("span");
+        migratedValue.className = "value";
+        var migrated = Duckies.isMigrated(id);
+        migratedValue.textContent = migrated ? "Yes" : "No";
+        keyValues.appendChild(migratedValue);
+
+        overviewPage.appendChild(keyValues);
+        infoDiv.appendChild(overviewPage);
+
+        //
+        var linkPage = document.createElement("div");
+        linkPage.id = id + "-links-page";
+        linkPage.className = "hidden page";
+        linkPage.innerHTML = '<br><ul><li>Opensea (<a href="https://opensea.io/assets/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/' + Duckies.erc1155Id(id) + '">1155</a>' + (migrated ? (', <a href="https://opensea.io/assets/ethereum/0x922dc160f2ab743312a6bb19dd5152c1d3ecca33/' + id + '">721</a>'):"") + ')</li><li><a href="https://looksrare.org/collections/0x922dC160f2ab743312A6bB19DD5152C1D3Ecca33/' + id + '">LooksRare</a></li><li><a href="https://rarity.tools/crypto-duckies/view/' +  Duckies.erc1155Id(id) + '">Rarity Tools</a></li><li>Etherscan (<a href="https://etherscan.io/token/0x495f947276749ce646f68ac8c248420045cb7b5e?a=' +  Duckies.erc1155Id(id) + '">1155</a>' +(migrated ? (', <a href="https://etherscan.io/token/0x922dc160f2ab743312a6bb19dd5152c1d3ecca33?a=' + id + '">721</a>'):'') + ')</li><li><a href="https://octal-crypto.github.io/snowcrash/?id=' + id + '">Snowcrash</a></li></ul>';
+        // 
+        infoDiv.appendChild(linkPage);
+
+        //
+        var imagePage = document.createElement("div");
+        imagePage.id = id +"-image-page";
+        imagePage.className = "hidden page";
+        imagePage.textContent = "Image settings coming soon...";
+        infoDiv.appendChild(imagePage);
+
+        //
+        var rarityPage = document.createElement("div");
+        rarityPage.id = id+"-rarity-page";
+        rarityPage.className = "hidden page";
+        rarityPage.textContent = "Rarity details coming soon...";
+        infoDiv.appendChild(rarityPage);
+        duckieDiv.appendChild(infoDiv);
+
+        var pages = [overviewPage, linkPage, imagePage, rarityPage];
+
+        //
+        var tabsDiv = document.createElement("div");
+        tabsDiv.className = "tabs";
+
+        //
+        var infoTab = document.createElement("div");
+        infoTab.className = "tab info-btn";
+        infoTab.textContent = "Info"
+
+        //
+        var linksTab = document.createElement("div");
+        linksTab.className = "tab links-btn hidden";
+        linksTab.textContent = "Links" 
+
+        //
+        var imageTab = document.createElement("div");
+        imageTab.className = "tab image-btn hidden";
+        imageTab.textContent = "Image"
+
+        //
+        var rarityTab = document.createElement("div");
+        rarityTab.className = "tab rarity-btn hidden";
+        rarityTab.textContent = "Rarity"
+
+        var tabs = [infoTab,linksTab,imageTab,rarityTab];
+        tabs.forEach(function(tab,_,tabs) {
+            tab.onclick = function(id) { return function(tab) {
+                tabs.forEach(t => t.classList.contains("hidden") != (t != tab.target) ? t.classList.toggle("hidden") : null);
+
+                var name = "-"+tab.target.classList[1].slice(0,-4)+"-page";
+                pages.forEach(p => p.classList.contains("hidden") !=
+                    (p.id != id + name) ? p.classList.toggle("hidden") : null);
+            }}(id);
+        })
+
+        tabsDiv.appendChild(infoTab);
+        tabsDiv.appendChild(linksTab);
+        tabsDiv.appendChild(imageTab);
+        tabsDiv.appendChild(rarityTab);
+        duckieDiv.appendChild(tabsDiv);
+        return duckieDiv;
+    }
+
+    searchTraits.onclick = function() {
+        traitsDiv.classList.toggle("hidden");
+        if (!searchTraits.classList.toggle("open")) {
+            for (var list of document.getElementsByClassName("trait-list")) {
+                list.classList.remove("open");
+            }
+        }
+    }
+
+    document.getElementById("gear").onclick = function() {
+        settings.classList.toggle("hidden");
+    }
+
+    idNumber.onkeydown = function(e) {
+        if (e.code == "Enter" || e.keyCode == 13) searchId.click();
+    }
+
+    function resetTraitHeaders() {
+        Array.from(document.getElementsByClassName('trait-value')).forEach(tv => tv.classList.remove("checked"));
+        Array.from(document.getElementsByClassName('trait-header')).forEach(th =>  {
+            th.innerText = th.innerText.slice(0, th.innerText.indexOf("(")+1) + "0/" + th.innerText.slice(th.innerText.indexOf("/")+1);
+        });
+    }
+
+    searchId.onclick = function() {
+        resetTraitHeaders();
+        removeScrollListeners();
+        var id = parseInt(idNumber.value);
+        if (id >= 1 && id <= 5000) {
+            idNumber.value = null;
+            filters = {};
+            matches = [];
+            pageIndex = 0;
+            pageSize = 10;
+            duckiesDiv.innerHTML = "";
+            duckiesDiv.append(getDuckiePanel(id));
+        }
+    };
+
+    function getCanvas(id) {
+        var canvas = document.createElement('canvas');
+        canvas.width = 24;
+        canvas.height = 24;
+        canvas.style="width:288px;height:288px;image-rendering: pixelated;"
+        var ctx = canvas.getContext('2d');
+        var image = ctx.getImageData(0, 0, 24, 24);
+        image.data.set(getImage(id, 1));
+        ctx.putImageData(image, 0, 0);
+        return canvas
+    }
+
+    function getColor(value){
+        return ["hsl(",(value*120).toString(10),",100%,50%)"].join("");
+    }
+
+    // Search photo
+    photo.onchange = function(e) {
+        filters = {};
+        resetTraitHeaders();
+        img = new Image();
+        img.onload = function() {
+            try {
+                addScrollListeners();
+                duckiesDiv.innerHTML = "";
+                // Scale and show the image
+                requestAnimationFrame(function() { 
+                    var canvas = document.createElement('canvas');
+                    var scale = 288 / img.width;
+                    canvas.width = img.width * scale;
+                    canvas.height = img.height * scale;
+                    var ctx = canvas.getContext('2d');
+                    ctx.scale(scale, scale);
+                    ctx.drawImage(img, 0, 0);
+                    duckiesDiv.appendChild(canvas);
+
+                    var loading = document.createElement("div");
+                    loading.textContent = "Searching...";
+                    duckiesDiv.appendChild(loading);
+
+                    requestAnimationFrame(function() {
+                        // Reverse lookup the image
+                        canvas = document.createElement('canvas');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0);
+                        var pixels = ctx.getImageData(0, 0, img.width, img.height);
+                        matches = Duckies.searchPhoto(pixels);
+                        pageIndex = 0;
+                        pageSize = 10;
+                        repaint();
+                        loading.style.visibility = "hidden";
+                    });
+                });
+            }
+            finally {
+                URL.revokeObjectURL(this.src);
+                photo.value = null;
+            }
+        };
+        img.src = URL.createObjectURL(this.files[0]);
+    };
+
+    function getImage(id, scale) {
+        var image =  [];
+        if (scale == 1) {
+            // Optimize this case
+            Duckies.pixels(id, true, function(rgb) {
+                image.push(rgb[0],rgb[1],rgb[2],255);
+                return true;
+            });
+        } else {
+            var row = [];
+            Duckies.pixels(id, true, function(rgb) {
+                for (var i=0; i < scale; i++) {
+                    row.push(rgb[0],rgb[1],rgb[2],255);
+                }
+                if (row.length == 24*4*scale) { // end of row
+                    for (var i=0; i < scale; i++) {
+                        row.forEach(function(r) { image.push(r) });
+                    }
+                    row = [];
+                }
+                return true;
+            });
+        }
+        return image;
+    }
+    </script>
+</html>
