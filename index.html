@@ -278,8 +278,8 @@
                 <button id="searchId">Search ID</button>
                 <div style="display:inline-block;width:2%"></div>
                 <input class="button" id="idNumber" type="number" min="1" max="5000" placeholder="ID" />
-                <!-- <button id="searchOwner">Search Owner</button> -->
-                <!-- <div style="display:inline-block;width:2%"></div>
+                <!-- <button id="searchOwner">Search Owner</button>
+                <div style="display:inline-block;width:2%"></div>
                 <input class="button" id="owner" type="text" placeholder="ENS/address" /> -->
             </div>
             <br>
@@ -373,7 +373,7 @@
             traitListDiv.className = "trait-list trait-type-"+type.toLowerCase();
 
             traitTypeDiv.onclick = function(traitListDiv) {
-                return function() { traitListDiv.classList.toggle("open") }
+                return function() { traitListDiv.classList.toggle("open"); repaint(); }
             }(traitListDiv);
             traitsDiv.appendChild(traitListDiv);
 
@@ -582,6 +582,7 @@
                 list.classList.remove("open");
             }
         }
+        repaint();
     }
 
     // document.getElementById("gear").onclick = function() {
