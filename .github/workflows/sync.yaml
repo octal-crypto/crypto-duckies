@@ -6,6 +6,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: ls
+        run: ls -la
       - name: sync
         run: npm install web3@1.7.3 && node sync.js
         env:
