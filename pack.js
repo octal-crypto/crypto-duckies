@@ -112,27 +112,29 @@ function packOwners() {
     // Write the number of duckies
     buffer.append(5000, 16);
 
-    // 
+    // Map address -> ENS
     const addressToEns = new Map();
     for (let id=1; id <= 5000; id++) {
         const duckie = readDuckie(id);
         addressToEns.set(duckie.owner, duckie.ens);
+
+        // Write the migration data
         buffer.append(duckie.migrated ? 1 : 0, 1);
     }
 
-    // addresses
+    // Write the addresses
     const addressList = Array.from(addressToEns.keys());
     buffer.append(addressList.length, 16);
     addressList.forEach(a => buffer.append(BigInt(a), 160));
 
-    // all 5000 indexes
+    // Write the owners
     const addressIdxLen = Math.ceil(Math.log2(addressList.length));
     for (let id=1; id <= 5000; id++) {
         const address = readDuckie(id).owner;
         buffer.append(addressList.indexOf(address), addressIdxLen);
     }
 
-    // ens str
+    // Write the ENS names
     const ensList = Array.from(new Set(addressToEns.values()));
     const ensStr = ensList.join(",");
     buffer.append(ensStr.length, 32);
@@ -142,7 +144,7 @@ function packOwners() {
         if (n.charCodeAt(1)) buffer.append(n.charCodeAt(1), 16);
     });
 
-    // 2,xxx indexes
+    // Write the address -> ENS mapping
     const ensIdxLen = Math.ceil(Math.log2(ensList.length));
     addressList.forEach(a => buffer.append(ensList.indexOf(addressToEns.get(a)), ensIdxLen));
     buffer.flush();

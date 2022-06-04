@@ -19,14 +19,20 @@ var duckieFile = id => `data/duckie${id}.json`; // File for duckie {id}
 var duckiesFile = "data/duckies.json"; // File with data for all duckies
 var blockFile = "data/block.json"; // File checkpointing the previous sync
 
-/** Syncs data that changes (owners, migration, ENS) */
+/** Syncs changes since the previous sync */
 (async function sync() {
     if (require.main !== module) return;
     if (!process.env.ETH_RPC) throw "Set ETH_RPC environment variable";
     const web3 = new Web3(new Web3.providers.HttpProvider(process.env.ETH_RPC));
 
-    // Sync changes since the previous sync
-    const fromBlock = JSON.parse(fs.readFileSync(blockFile)).blockNumber + 1;
+    // If we're starting from scratch, sync the static data
+    if (!fs.existsSync("data")) {
+        fs.mkdirSync("data");
+        await syncStatic();
+    }
+
+    // Sync data that changes (owners, migration, ENS)
+    const fromBlock = !fs.existsSync(blockFile) ? 0 : (JSON.parse(fs.readFileSync(blockFile)).blockNumber+1);
     const toBlock = await web3.eth.getBlockNumber();
     if (fromBlock <= toBlock) {
         console.log("Syncing blocks %d to %d", fromBlock, toBlock);
