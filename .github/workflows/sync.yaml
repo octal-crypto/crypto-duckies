@@ -6,13 +6,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: test
-        run: ls -la
-#       - name: sync
-#         run: node sync.js
-#         env:
-#           ETH_RPC: ${{ secrets.ETH_RPC }}
-#       - name: pack
-#         run: node pack.js
-#       - name: pack
-#         run: echo yes
+      - name: sync
+        run: npm install web3@1.7.3 && node sync.js
+        env:
+          ETH_RPC: ${{ secrets.ETH_RPC }}
+      - name: pack
+        run: node pack.js
