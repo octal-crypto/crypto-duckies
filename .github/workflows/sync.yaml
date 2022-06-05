@@ -22,3 +22,4 @@ jobs:
           blockNumber=$(node -e 'console.log(JSON.parse(fs.readFileSync("data/block.json")).blockNumber)')
           git commit -m "Sync to block $blockNumber"
           git push
+
