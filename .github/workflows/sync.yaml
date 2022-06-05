@@ -3,16 +3,22 @@ on:
   schedule:
   - cron: "*/5 * * * *"
 jobs:
-  build:
+  sync:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v2.4.2
-      - name: ls
-        run: ls -la
+        uses: actions/checkout@v3
       - name: sync
-        run: npm install web3@1.7.3 && node sync.js
+        run: npm install web3 && node sync.js >> data/transactions
         env:
           ETH_RPC: ${{ secrets.ETH_RPC }}
       - name: pack
         run: node pack.js
+      - name: commit
+        run: |
+          git config user.name octal-crypto
+          git config user.email ${{ secrets.EMAIL }}
+          git add data
+          blockNumber=$(node -e 'console.log(JSON.parse(fs.readFileSync("data/block.json")).blockNumber)')
+          git commit -m "Sync to block $blockNumber"
+          git push
