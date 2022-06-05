@@ -26,13 +26,15 @@ var blockFile = "data/block.json"; // File checkpointing the previous sync
     const web3 = new Web3(new Web3.providers.HttpProvider(process.env.ETH_RPC));
 
     // If we're starting from scratch, sync the static data
-    if (!fs.existsSync("data")) {
-        fs.mkdirSync("data");
+    if (!fs.existsSync(blockFile)) {
         await syncStatic();
+        var fromBlock = 0;
+    } else {
+        // Otherwise resume from the previously synced block
+        var fromBlock = JSON.parse(fs.readFileSync(blockFile)).blockNumber + 1;
     }
 
     // Sync data that changes (owners, migration, ENS)
-    const fromBlock = !fs.existsSync(blockFile) ? 0 : (JSON.parse(fs.readFileSync(blockFile)).blockNumber+1);
     const toBlock = await web3.eth.getBlockNumber();
     if (fromBlock <= toBlock) {
         console.log("Syncing blocks %d to %d", fromBlock, toBlock);
