@@ -15,7 +15,7 @@ const fs = require('fs');
     "ens": ""
 }
 */
-var duckieFile = id => `data/duckie${id}.json`; // File for duckie {id}
+var duckieFile = id => `data/duckies/duckie${id}.json`; // File for duckie {id}
 var duckiesFile = "data/duckies.json"; // File with data for all duckies
 var blockFile = "data/block.json"; // File checkpointing the previous sync
 
