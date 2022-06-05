@@ -165,6 +165,9 @@ async function syncEns() {
     for (let id=1; id <= 5000; id++) {
         const duckie = readDuckie(id);
         const name = names[addressList.indexOf(duckie.owner)]
+        if (name != (duckie.ens ?? "")) {
+            console.log("Synced ENS name %s for address %s and duckie %d", name, duckie.owner, id);
+        }
         name ? duckie.ens = name : delete duckie.ens;
         writeDuckie(duckie);
     }
