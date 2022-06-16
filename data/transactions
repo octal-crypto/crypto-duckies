@@ -18049,3 +18049,7 @@ Syncing blocks 14970256 to 14970299
 Synced to block 14970299
 Syncing blocks 14970300 to 14970860
 Synced to block 14970860
+Syncing blocks 14970861 to 14971204
+Synced ERC-1155 transaction 0x73d333e62c48e90105cdae544537b7975eb7c7a4ce3ddc0a53f0dd5b68b7e91b: Duckie 3858 to owner 0x000000000000000000000000000000000000dEaD
+Synced ERC-721 transaction 0x73d333e62c48e90105cdae544537b7975eb7c7a4ce3ddc0a53f0dd5b68b7e91b: Duckie 3858 to owner 0x96CC519f2AC4F96f9fbdD58e0c52b8936F21481B
+Synced to block 14971204
