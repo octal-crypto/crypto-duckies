@@ -19628,3 +19628,13 @@ Syncing blocks 15029697 to 15029735
 Synced to block 15029735
 Syncing blocks 15029736 to 15029767
 Synced to block 15029767
+Syncing blocks 15029768 to 15029878
+Synced ERC-721 transaction 0xbf159d032188d8442a3de05c0d39672062c58e31c477e23ad17b02d4427d08ae: Duckie 1977 to owner 0xD1f0c3223686957542bEfe67675F01d3B66a2C82
+Synced ERC-721 transaction 0xbf159d032188d8442a3de05c0d39672062c58e31c477e23ad17b02d4427d08ae: Duckie 1163 to owner 0xD1f0c3223686957542bEfe67675F01d3B66a2C82
+Synced ERC-721 transaction 0xbf159d032188d8442a3de05c0d39672062c58e31c477e23ad17b02d4427d08ae: Duckie 4915 to owner 0xD1f0c3223686957542bEfe67675F01d3B66a2C82
+Synced ERC-721 transaction 0xbf159d032188d8442a3de05c0d39672062c58e31c477e23ad17b02d4427d08ae: Duckie 3124 to owner 0xD1f0c3223686957542bEfe67675F01d3B66a2C82
+Synced ENS name supersimonx2000.eth for address 0xD1f0c3223686957542bEfe67675F01d3B66a2C82 and duckie 1163
+Synced ENS name supersimonx2000.eth for address 0xD1f0c3223686957542bEfe67675F01d3B66a2C82 and duckie 1977
+Synced ENS name supersimonx2000.eth for address 0xD1f0c3223686957542bEfe67675F01d3B66a2C82 and duckie 3124
+Synced ENS name supersimonx2000.eth for address 0xD1f0c3223686957542bEfe67675F01d3B66a2C82 and duckie 4915
+Synced to block 15029878
