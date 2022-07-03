@@ -20599,3 +20599,15 @@ Syncing blocks 15068307 to 15068352
 Synced ERC-721 transaction 0x0cd90f33a552a2f635812412f500fd71d0aa062f8a553a43551219bc8dbf1da9: Duckie 1642 to owner 0xC485E340587629edd2b14634Bd03F2A01DAd8dFD
 Synced ENS name ledger.evgeni.eth for address 0xC485E340587629edd2b14634Bd03F2A01DAd8dFD and duckie 1642
 Synced to block 15068352
+Syncing blocks 15068353 to 15068474
+Synced ERC-721 transaction 0x49f4c5e009c498a761fd5ae69956e94f2084124a1abcbeda390d71bb122d1755: Duckie 1977 to owner 0xA199f8ffECAfa4f3d500d3AB1D1c8e0b49C9DFd0
+Synced ERC-721 transaction 0x49f4c5e009c498a761fd5ae69956e94f2084124a1abcbeda390d71bb122d1755: Duckie 1163 to owner 0xA199f8ffECAfa4f3d500d3AB1D1c8e0b49C9DFd0
+Synced ERC-721 transaction 0x49f4c5e009c498a761fd5ae69956e94f2084124a1abcbeda390d71bb122d1755: Duckie 4915 to owner 0xA199f8ffECAfa4f3d500d3AB1D1c8e0b49C9DFd0
+Synced ERC-721 transaction 0x49f4c5e009c498a761fd5ae69956e94f2084124a1abcbeda390d71bb122d1755: Duckie 3124 to owner 0xA199f8ffECAfa4f3d500d3AB1D1c8e0b49C9DFd0
+Synced ENS name moonvibevault.eth for address 0xA199f8ffECAfa4f3d500d3AB1D1c8e0b49C9DFd0 and duckie 1163
+Synced ENS name moonvibevault.eth for address 0xA199f8ffECAfa4f3d500d3AB1D1c8e0b49C9DFd0 and duckie 1977
+Synced ENS name 0xunix.eth for address 0xCc3B37EeB73143e6D2a547058118Fe25561A4eb2 and duckie 2522
+Synced ENS name moonvibevault.eth for address 0xA199f8ffECAfa4f3d500d3AB1D1c8e0b49C9DFd0 and duckie 3124
+Synced ENS name 0xunix.eth for address 0xCc3B37EeB73143e6D2a547058118Fe25561A4eb2 and duckie 3187
+Synced ENS name moonvibevault.eth for address 0xA199f8ffECAfa4f3d500d3AB1D1c8e0b49C9DFd0 and duckie 4915
+Synced to block 15068474
