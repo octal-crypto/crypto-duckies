@@ -21607,3 +21607,11 @@ Syncing blocks 15111426 to 15111470
 Synced to block 15111470
 Syncing blocks 15111471 to 15112049
 Synced to block 15112049
+Syncing blocks 15112050 to 15112518
+Synced ERC-721 transaction 0xf644fdc1aaa78ccdbab2bf5e466bfd736cd1250c4d3d030c93b9b6bf08241432: Duckie 3342 to owner 0x5078110476Cd2Aa096160F2D988aE80aEaFB5Ae4
+Synced ERC-721 transaction 0xf644fdc1aaa78ccdbab2bf5e466bfd736cd1250c4d3d030c93b9b6bf08241432: Duckie 2745 to owner 0x5078110476Cd2Aa096160F2D988aE80aEaFB5Ae4
+Synced ERC-721 transaction 0xf644fdc1aaa78ccdbab2bf5e466bfd736cd1250c4d3d030c93b9b6bf08241432: Duckie 441 to owner 0x5078110476Cd2Aa096160F2D988aE80aEaFB5Ae4
+Synced ENS name justt2s.eth for address 0x5078110476Cd2Aa096160F2D988aE80aEaFB5Ae4 and duckie 441
+Synced ENS name justt2s.eth for address 0x5078110476Cd2Aa096160F2D988aE80aEaFB5Ae4 and duckie 2745
+Synced ENS name justt2s.eth for address 0x5078110476Cd2Aa096160F2D988aE80aEaFB5Ae4 and duckie 3342
+Synced to block 15112518
