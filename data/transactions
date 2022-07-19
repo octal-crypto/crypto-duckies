@@ -22907,3 +22907,11 @@ Syncing blocks 15169625 to 15169671
 Synced to block 15169671
 Syncing blocks 15169672 to 15170181
 Synced to block 15170181
+Syncing blocks 15170182 to 15170760
+Synced ERC-721 transaction 0x44fcad5f474ef7326a1dd3b620fb2bc853df1042ccaa5d9f2001a44b790771ea: Duckie 2063 to owner 0xb728CeCc01907C50B9211cbfb67d0C94b4B798d2
+Synced ERC-721 transaction 0x44fcad5f474ef7326a1dd3b620fb2bc853df1042ccaa5d9f2001a44b790771ea: Duckie 1964 to owner 0xb728CeCc01907C50B9211cbfb67d0C94b4B798d2
+Synced ERC-721 transaction 0x44fcad5f474ef7326a1dd3b620fb2bc853df1042ccaa5d9f2001a44b790771ea: Duckie 3153 to owner 0xb728CeCc01907C50B9211cbfb67d0C94b4B798d2
+Synced ENS name uncleluke58.eth for address 0xb728CeCc01907C50B9211cbfb67d0C94b4B798d2 and duckie 1964
+Synced ENS name uncleluke58.eth for address 0xb728CeCc01907C50B9211cbfb67d0C94b4B798d2 and duckie 2063
+Synced ENS name uncleluke58.eth for address 0xb728CeCc01907C50B9211cbfb67d0C94b4B798d2 and duckie 3153
+Synced to block 15170760
