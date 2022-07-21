@@ -23228,3 +23228,10 @@ Syncing blocks 15185344 to 15185435
 Synced to block 15185435
 Syncing blocks 15185436 to 15185484
 Synced to block 15185484
+Syncing blocks 15185485 to 15185554
+Synced ERC-1155 transaction 0x5dfea5cb467d8f9793a7357c9c76e9ead75db6e09651a077df85b238e230abc3: Duckie 3874 to owner 0x5F2Bdf26F6528cE05AAC77D7fa52bac7A836eF66
+Synced ERC-1155 transaction 0x3f3fba20bc53719cf6a87529ee610470a1262dc366d9990e888775365cdab19d: Duckie 2568 to owner 0x5F2Bdf26F6528cE05AAC77D7fa52bac7A836eF66
+Synced ERC-1155 transaction 0x7d4ae5a55a271a1fae2011d4d9c9d3fe588b3e92ad20f16412ed20b2e1228f04: Duckie 1000 to owner 0x5F2Bdf26F6528cE05AAC77D7fa52bac7A836eF66
+Synced ENS name  for address 0x5F2Bdf26F6528cE05AAC77D7fa52bac7A836eF66 and duckie 1000
+Synced ENS name  for address 0x5F2Bdf26F6528cE05AAC77D7fa52bac7A836eF66 and duckie 2568
+Synced to block 15185554
