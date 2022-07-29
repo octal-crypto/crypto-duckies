@@ -24379,3 +24379,11 @@ Syncing blocks 15239094 to 15239140
 Synced to block 15239140
 Syncing blocks 15239141 to 15239224
 Synced to block 15239224
+Syncing blocks 15239225 to 15239272
+Synced ERC-721 transaction 0x2569986caa7d8eaefa40d33314af98d49d20f22b51295f801e9ae7d868e84f0c: Duckie 2244 to owner 0x1b541EC5f5CdA68a8d5cf1B7140c3cDB719177c9
+Synced ERC-721 transaction 0x2569986caa7d8eaefa40d33314af98d49d20f22b51295f801e9ae7d868e84f0c: Duckie 1414 to owner 0x1b541EC5f5CdA68a8d5cf1B7140c3cDB719177c9
+Synced ERC-721 transaction 0x2569986caa7d8eaefa40d33314af98d49d20f22b51295f801e9ae7d868e84f0c: Duckie 1177 to owner 0x1b541EC5f5CdA68a8d5cf1B7140c3cDB719177c9
+Synced ENS name hearmeroark.eth for address 0x1b541EC5f5CdA68a8d5cf1B7140c3cDB719177c9 and duckie 1177
+Synced ENS name hearmeroark.eth for address 0x1b541EC5f5CdA68a8d5cf1B7140c3cDB719177c9 and duckie 1414
+Synced ENS name hearmeroark.eth for address 0x1b541EC5f5CdA68a8d5cf1B7140c3cDB719177c9 and duckie 2244
+Synced to block 15239272
