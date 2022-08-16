@@ -20,7 +20,7 @@ var duckiesFile = "data/duckies.json"; // File with data for all duckies
 var blockFile = "data/block.json"; // File checkpointing the previous sync
 
 /** Syncs changes since the previous sync */
-(async function sync() {
+(async function main() {
     if (require.main !== module) return;
     if (!process.env.ETH_RPC) throw "Set ETH_RPC environment variable";
     const web3 = new Web3(new Web3.providers.HttpProvider(process.env.ETH_RPC));

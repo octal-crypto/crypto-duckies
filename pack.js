@@ -44,10 +44,8 @@ function packStatic() {
 
     // Add a trait for the number of traits
     traitTypes.push("Trait Count");
-    traitValues.push(duckies.reduce((p,c) => {
-        c.traits[traitTypes.length-1] = indexOrPush(p, c.traitCount);
-        return p;
-    }, []));
+    traitValues.push([...duckies.reduce((p,c) => p.add(c.traitCount), new Set())].sort());
+    duckies.forEach(d => d.traits[traitTypes.length-1] = traitValues.at(-1).indexOf(d.traitCount));
 
     // The extension is .js because github pages only gzips certain extensions
     const file = "data/static.bin.js";
