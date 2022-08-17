@@ -26995,3 +26995,13 @@ Syncing blocks 15355416 to 15355921
 Synced to block 15355921
 Syncing blocks 15355922 to 15356466
 Synced to block 15356466
+Syncing blocks 15356467 to 15356787
+Synced ERC-1155 transaction 0x64cef975b2177b4463fafabf250be598f2dbd939113c009b54706b7052d4f309: Duckie 3074 to owner 0xDa1Da69d825f17bDc8aDb6E773a00a39BBd97DC9
+Synced ERC-1155 transaction 0x7bdd10a7972938c0890371c334af592c9e7e281fb4f7bce8a5453b76604caa9d: Duckie 4056 to owner 0xDa1Da69d825f17bDc8aDb6E773a00a39BBd97DC9
+Synced ERC-1155 transaction 0x7bdd10a7972938c0890371c334af592c9e7e281fb4f7bce8a5453b76604caa9d: Duckie 681 to owner 0xDa1Da69d825f17bDc8aDb6E773a00a39BBd97DC9
+Synced ERC-1155 transaction 0x7bdd10a7972938c0890371c334af592c9e7e281fb4f7bce8a5453b76604caa9d: Duckie 3083 to owner 0xDa1Da69d825f17bDc8aDb6E773a00a39BBd97DC9
+Synced ENS name  for address 0xDa1Da69d825f17bDc8aDb6E773a00a39BBd97DC9 and duckie 681
+Synced ENS name  for address 0xDa1Da69d825f17bDc8aDb6E773a00a39BBd97DC9 and duckie 3074
+Synced ENS name  for address 0xDa1Da69d825f17bDc8aDb6E773a00a39BBd97DC9 and duckie 3083
+Synced ENS name  for address 0xDa1Da69d825f17bDc8aDb6E773a00a39BBd97DC9 and duckie 4056
+Synced to block 15356787
