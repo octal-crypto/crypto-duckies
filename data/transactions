@@ -27317,3 +27317,9 @@ Syncing blocks 15371884 to 15371928
 Synced to block 15371928
 Syncing blocks 15371929 to 15372031
 Synced to block 15372031
+Syncing blocks 15372032 to 15372158
+Synced ERC-1155 transaction 0x3d20fb101b1f1c889542ab633dd521c13722ff6b8ee7a28f89ac805dd3cdc949: Duckie 3761 to owner 0xC485E340587629edd2b14634Bd03F2A01DAd8dFD
+Synced ERC-1155 transaction 0xb79bc3cab2ffc82ea4002adfbf46ca9a032f2e45313f9f68aafcef1885ca9a0e: Duckie 2948 to owner 0xC485E340587629edd2b14634Bd03F2A01DAd8dFD
+Synced ENS name ledger.evgeni.eth for address 0xC485E340587629edd2b14634Bd03F2A01DAd8dFD and duckie 2948
+Synced ENS name ledger.evgeni.eth for address 0xC485E340587629edd2b14634Bd03F2A01DAd8dFD and duckie 3761
+Synced to block 15372158
