@@ -17,7 +17,7 @@ Duckies.onReady = function(ready) {
         // Download the duckie data.
         // The extension is .js because github pages only gzips certain extensions.
         var req = new XMLHttpRequest();
-        req.open("GET", "https://octal-crypto.github.io/crypto-duckies/data/static.bin.js");
+        req.open("GET", "https://octal.art/crypto-duckies/data/static.bin.js");
         req.responseType = "arraybuffer";
         req.onload = function(req){ return function() {
             _.staticReader = new BufferReader(req.response);
@@ -86,7 +86,7 @@ Duckies.onReady = function(ready) {
 
         // 
         var req = new XMLHttpRequest();
-        req.open("GET", "https://octal-crypto.github.io/crypto-duckies/data/owners.bin.js");
+        req.open("GET", "https://octal.art/crypto-duckies/data/owners.bin.js");
         req.responseType = "arraybuffer";
         req.onload = function(req){ return function() {
             _.ownersReader = new BufferReader(req.response);
