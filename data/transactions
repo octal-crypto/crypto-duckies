@@ -31442,3 +31442,8 @@ Syncing blocks 15592128 to 15592251
 Synced to block 15592251
 Syncing blocks 15592252 to 15592321
 Synced to block 15592321
+Syncing blocks 15592322 to 15593164
+Synced ERC-721 transaction 0x9fafcf892f87ec0b8eb8288dfaa30fcb785639f4f766dcbd5b9e5d532fce2da9: Duckie 1983 to owner 0x2388a2eA2E5f04720164d980455861037eB263e0
+Synced ERC-721 transaction 0x63ba0c2f1af5d13b0c1031b40b20301c929e2be96d631c1326b004efb5866c04: Duckie 393 to owner 0x396B0d551A2C960E138a2d8A602446B3E2eD3ed7
+Synced ENS name policrypto.eth for address 0x2388a2eA2E5f04720164d980455861037eB263e0 and duckie 1983
+Synced to block 15593164
