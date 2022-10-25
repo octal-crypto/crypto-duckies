@@ -34409,3 +34409,13 @@ Syncing blocks 15825484 to 15825690
 Synced to block 15825690
 Syncing blocks 15825691 to 15825847
 Synced to block 15825847
+Syncing blocks 15825848 to 15826023
+Synced ERC-721 transaction 0x88abab73b898a5110ce6c4dbc56aee14b4bfcce5e92f07296d5858836e6caeff: Duckie 4299 to owner 0x27a00E2B2665A9dEa2EDB83DaD4Cc33bdBB58074
+Synced ERC-721 transaction 0x88abab73b898a5110ce6c4dbc56aee14b4bfcce5e92f07296d5858836e6caeff: Duckie 1041 to owner 0x27a00E2B2665A9dEa2EDB83DaD4Cc33bdBB58074
+Synced ERC-721 transaction 0x88abab73b898a5110ce6c4dbc56aee14b4bfcce5e92f07296d5858836e6caeff: Duckie 1164 to owner 0x27a00E2B2665A9dEa2EDB83DaD4Cc33bdBB58074
+Synced ERC-721 transaction 0x88abab73b898a5110ce6c4dbc56aee14b4bfcce5e92f07296d5858836e6caeff: Duckie 1893 to owner 0x27a00E2B2665A9dEa2EDB83DaD4Cc33bdBB58074
+Synced ENS name thefockinfury.eth for address 0x27a00E2B2665A9dEa2EDB83DaD4Cc33bdBB58074 and duckie 1041
+Synced ENS name thefockinfury.eth for address 0x27a00E2B2665A9dEa2EDB83DaD4Cc33bdBB58074 and duckie 1164
+Synced ENS name thefockinfury.eth for address 0x27a00E2B2665A9dEa2EDB83DaD4Cc33bdBB58074 and duckie 1893
+Synced ENS name thefockinfury.eth for address 0x27a00E2B2665A9dEa2EDB83DaD4Cc33bdBB58074 and duckie 4299
+Synced to block 15826023
