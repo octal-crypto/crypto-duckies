@@ -16,7 +16,9 @@ jobs:
         run: node pack.js
       - name: commit
         run: |
+          git config user.name "duckie-sync"
+          git config user.email "<>"
           git add data
           blockNumber=$(node -e 'console.log(JSON.parse(fs.readFileSync("data/block.json")).blockNumber)')
-          git commit -m "Sync to block $blockNumber" --author "duckie-sync <>"
+          git commit -m "Sync to block $blockNumber"
           git push
