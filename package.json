@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "web3": "^1.8.0"
+  },
+  "overrides": {
+    "idna-uts46-hx": "3.0.0"
+  }
+}
