@@ -41671,3 +41671,8 @@ Syncing blocks 16170797 to 16170844
 Synced to block 16170844
 Syncing blocks 16170845 to 16170932
 Synced to block 16170932
+Syncing blocks 16170933 to 16171011
+Synced ERC-1155 transaction 0xb33e8c4b2412e9bd5e2858e26052ba9622f8072e41a59aab53bddbe127ccc504: Duckie 3992 to owner 0xc2a2b32b71fE1adC51eAAaf6DD8fbc39fbed296A
+Synced ERC-1155 transaction 0x33e33a31e5cb83aa71e3dea009ff451129191fb74694a9d4103aa7d2cd0fdddb: Duckie 3992 to owner 0x000000000000000000000000000000000000dEaD
+Synced ERC-721 transaction 0x33e33a31e5cb83aa71e3dea009ff451129191fb74694a9d4103aa7d2cd0fdddb: Duckie 3992 to owner 0xc2a2b32b71fE1adC51eAAaf6DD8fbc39fbed296A
+Synced to block 16171011
