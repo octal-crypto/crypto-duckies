@@ -42121,3 +42121,9 @@ Syncing blocks 16188596 to 16188644
 Synced to block 16188644
 Syncing blocks 16188645 to 16188690
 Synced to block 16188690
+Syncing blocks 16188691 to 16188737
+Synced ERC-721 transaction 0x58bda2000f12d5e3da0d49c16c50261a0e5e1ec0b7003453c5341ae9a128dc04: Duckie 3761 to owner 0x8BbCD64b2D009688e5bea8891fEFBfd5A4347AC7
+Synced ERC-721 transaction 0x1518dbcb52b1712858bdc9f7052f019636a716bf8752ec76622c4e77256d58b6: Duckie 2948 to owner 0x8BbCD64b2D009688e5bea8891fEFBfd5A4347AC7
+Synced ENS name  for address 0x8BbCD64b2D009688e5bea8891fEFBfd5A4347AC7 and duckie 2948
+Synced ENS name  for address 0x8BbCD64b2D009688e5bea8891fEFBfd5A4347AC7 and duckie 3761
+Synced to block 16188737
