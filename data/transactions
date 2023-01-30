@@ -51350,3 +51350,9 @@ Syncing blocks 16519631 to 16519806
 Synced to block 16519806
 Syncing blocks 16519807 to 16519953
 Synced to block 16519953
+Syncing blocks 16519954 to 16520021
+Synced ERC-1155 transaction 0x55c6c2f27b5d426d482a8190bbe4585d471322e74f2700a1bcab3894e1edf167: Duckie 902 to owner 0xC33dA1e8509cA5Fff0D34d21ccDd8EC13423ecbC
+Synced ERC-1155 transaction 0xf2ac68c3ef9ca53a4496ab3fa461b4fca7653401fb2d8f0810cb22cbaac08573: Duckie 902 to owner 0x000000000000000000000000000000000000dEaD
+Synced ERC-721 transaction 0xf2ac68c3ef9ca53a4496ab3fa461b4fca7653401fb2d8f0810cb22cbaac08573: Duckie 902 to owner 0xC33dA1e8509cA5Fff0D34d21ccDd8EC13423ecbC
+Synced ENS name shees.eth for address 0xC33dA1e8509cA5Fff0D34d21ccDd8EC13423ecbC and duckie 902
+Synced to block 16520021
