@@ -196,7 +196,7 @@ function writeDuckie(duckie) {
         const ms = Math.round(delay * (jitter ? 2*Math.random() : 1));
         console.warn("Retrying in %dms: %s", ms, e);
         await new Promise(r => setTimeout(r, ms));
-        return retry(func, retriable, delay*mult, mult);
+        return retry(func, retriable, delay*mult, mult, jitter);
     }
 }
 
