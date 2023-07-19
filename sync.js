@@ -14,9 +14,9 @@ const fs = require('fs');
     "ens": ""
 }
 */
-var duckieFile = id => `data/duckies/duckie${id}.json`; // File for duckie {id}
-var duckiesFile = "data/duckies.json"; // File with data for all duckies
-var blockFile = "data/block.json"; // File checkpointing the previous sync
+const duckieFile = id => `data/duckies/duckie${id}.json`; // File for duckie {id}
+const duckiesFile = "data/duckies.json"; // File with data for all duckies
+const blockFile = "data/block.json"; // File checkpointing the previous sync
 
 /** Syncs changes since the previous sync */
 (async function main() {
@@ -78,22 +78,15 @@ async function syncOwners(fromBlock, toBlock) {
     // Map from duckie id to owner address
     const owners = new Map();
 
-    // Query ERC-1155 transfer events in sequential block ranges.
+    // Query ERC-1155 transfer events
     const erc1155 = erc1155Api(web3);
-    const retriable = e => !["returned more than","server error"].some(m=>e.toString().includes(m));
-    for (let from=fromBlock, to=toBlock; from < to;) {
-        try {
-            var transfers = await retry(() => erc1155.getPastEvents(
-                "TransferSingle", {fromBlock:from, toBlock:to}), retriable);
+    const retriable = e => !["returned more than","size exceeded","server error"].some(m=>e.toString().includes(m));
+    let query = queryBlocks(fromBlock, toBlock, async (from, to) => [
+        ...await retry(() => erc1155.getPastEvents("TransferSingle", {fromBlock:from, toBlock:to}), retriable),
+        ...await retry(() => erc1155.getPastEvents("TransferBatch", {fromBlock:from, toBlock:to}), retriable)
+    ]);
 
-            transfers.push(...await retry(() =>erc1155.getPastEvents(
-                "TransferBatch", {fromBlock:from, toBlock:to}), retriable));
-        } catch(e) {
-            // Query fewer blocks next time
-            to = Math.round((from+to)/2);
-            continue;
-        }
-
+    for await (const transfers of query) {
         // For each ERC-1155 transfer
         for (const t of transfers) {
             for (const id1155 of t.returnValues.ids ?? [t.returnValues.id]) {
@@ -110,11 +103,6 @@ async function syncOwners(fromBlock, toBlock) {
                 }
             }
         }
-
-        // Find the next range of blocks to query
-        const numBlocks = to - from;
-        from = to;
-        to = Math.min(toBlock, from + Math.round(1.1*numBlocks));
     }
 
     // Set of migrated duckie ids
@@ -122,16 +110,18 @@ async function syncOwners(fromBlock, toBlock) {
 
     // Query ERC-721 transfer events
     const erc721 = duckiesApi(web3);
-    var transfers = await retry(() =>
-        erc721.getPastEvents("Transfer", {fromBlock:fromBlock, toBlock:toBlock}));
+    query = queryBlocks(fromBlock, toBlock, (from, to) => retry(() =>
+        erc721.getPastEvents("Transfer", {fromBlock:from, toBlock:to}), retriable));
 
-    for (const t of transfers) {
-        const id = parseInt(t.returnValues.tokenId);
-        owners.set(id, t.returnValues.to);
-        migrated.add(id);
-        console.log(
-            "Synced ERC-721 transaction %s: Duckie %d to owner %s",
-            t.transactionHash, id, t.returnValues.to);
+    for await (const transfers of query) {
+        for (const t of transfers) {
+            const id = parseInt(t.returnValues.tokenId);
+            owners.set(id, t.returnValues.to);
+            migrated.add(id);
+            console.log(
+                "Synced ERC-721 transaction %s: Duckie %d to owner %s",
+                t.transactionHash, id, t.returnValues.to);
+        }
     }
 
     // Rewrite data with the latest owners and migrations
@@ -141,6 +131,24 @@ async function syncOwners(fromBlock, toBlock) {
         if (!duckie.migrated) duckie.migrated = migrated.has(duckie.id);
         if (owner !== undefined) duckie.owner = owner;
         writeDuckie(duckie)
+    }
+}
+
+/** Executes a function over a range of blocks,
+    breaking into smaller chunks if necessary */
+async function* queryBlocks(fromBlock, toBlock, fn) {
+    for (let from=fromBlock, to=toBlock; from < to;) {
+        try { yield await fn(from, to) }
+        catch {
+            // Query fewer blocks next time
+            to = Math.round((from+to)/2);
+            continue;
+        }
+
+        // Find the next range of blocks to query
+        const numBlocks = to - from;
+        from = to;
+        to = Math.min(toBlock, from + Math.round(1.1*numBlocks));
     }
 }
 
