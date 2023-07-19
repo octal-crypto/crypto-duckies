@@ -1,5 +1,4 @@
 const Web3 = require("web3");
-const namehash = require("eth-ens-namehash");
 const fs = require('fs');
 
 /* Duckie schema:
@@ -159,7 +158,6 @@ async function syncEns() {
     // Reverse resolve their ENS names
     const addressList = Array.from(addressSet);
     let names = await retry(() => ens.methods.getNames(addressList).call());
-    names = names.filter(n => n === namehash.normalize(n));
 
     // Rewrite data with the latest ENS names
     for (let id=1; id <= 5000; id++) {
