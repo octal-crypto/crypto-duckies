@@ -81,12 +81,12 @@ async function syncOwners(fromBlock, toBlock) {
     // Query ERC-1155 transfer events
     const erc1155 = erc1155Api(web3);
     const retriable = e => !["returned more than","size exceeded","server error"].some(m=>e.toString().includes(m));
-    let query = queryBlocks(fromBlock, toBlock, async (from, to) => [
+    const erc1155Query = queryBlocks(fromBlock, toBlock, async (from, to) => [
         ...await retry(() => erc1155.getPastEvents("TransferSingle", {fromBlock:from, toBlock:to}), retriable),
         ...await retry(() => erc1155.getPastEvents("TransferBatch", {fromBlock:from, toBlock:to}), retriable)
     ]);
 
-    for await (const transfers of query) {
+    for await (const transfers of erc1155Query) {
         // For each ERC-1155 transfer
         for (const t of transfers) {
             for (const id1155 of t.returnValues.ids ?? [t.returnValues.id]) {
@@ -110,10 +110,10 @@ async function syncOwners(fromBlock, toBlock) {
 
     // Query ERC-721 transfer events
     const erc721 = duckiesApi(web3);
-    query = queryBlocks(fromBlock, toBlock, (from, to) => retry(() =>
+    const erc721Query = queryBlocks(fromBlock, toBlock, (from, to) => retry(() =>
         erc721.getPastEvents("Transfer", {fromBlock:from, toBlock:to}), retriable));
 
-    for await (const transfers of query) {
+    for await (const transfers of erc721Query) {
         for (const t of transfers) {
             const id = parseInt(t.returnValues.tokenId);
             owners.set(id, t.returnValues.to);
@@ -247,7 +247,7 @@ function duckiesApi(web3) {
     }], "0x922dc160f2ab743312a6bb19dd5152c1d3ecca33");
 }
 
-/** ABI contract for ERC-1155 transfer events */
+/** ABI contract for ERC-1155 transfer events from OpenSea's shared storefront */
 function erc1155Api(web3) {
     return new web3.eth.Contract([
     {
