@@ -2,6 +2,7 @@ name: sync
 on:
   schedule:
   - cron: "*/60 * * * *"
+  workflow_dispatch:
 jobs:
   sync:
     runs-on: ubuntu-latest
