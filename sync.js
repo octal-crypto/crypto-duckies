@@ -165,7 +165,6 @@ async function syncEns() {
 
     // Reverse resolve their ENS names
     const addressList = Array.from(addressSet);
-    console.log("ENS length " + addressList.length)
     let names = await retry(() => ens.methods.getNames(addressList).call());
 
     // Rewrite data with the latest ENS names
