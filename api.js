@@ -124,15 +124,12 @@ Duckies.onReady = function(ready) {
 Duckies.owner = function(id) {
     var _ = Duckies._;
 
-    // 
     var addressIndex;
     _.ownersReader.read(_.addressIndexes + (id-1)*_.addressIndexLen, _.addressIndexLen, _.addressIndexLen, i => addressIndex = i);
 
-    // 
     var address = "";
     _.ownersReader.read(_.addresses + addressIndex*160, 160, 32, function(i) { address += _.hex(i,4); return true; });
 
-    //
     var ensIndex;
     _.ownersReader.read(_.ensIndexes + addressIndex*_.ensIndexLen, _.ensIndexLen, _.ensIndexLen, function(i) {ensIndex=i});
 
@@ -386,6 +383,19 @@ Duckies.searchPhoto = function(pixels) {
     var matches = new SortedArray(function(a,b) { return b[1] - a[1] });
     for (var id=1; id <= Duckies.numDuckies; id++) matches.add([id, compareDuckie(id)]);
     return matches.array;
+}
+
+/** Returns an array of duckies owned by the ENS or address {owner} */
+Duckies.searchOwner = function(owner) {
+    if (/^0x[a-fA-F0-9]{40}$/.test(owner)) owner = owner.toLowerCase();
+    else if (owner && !owner.endsWith(".eth")) owner += '.eth';
+
+    var duckies = [];
+    for (var id=1; owner && id <= Duckies.numDuckies; id++) {
+        var o = Duckies.owner(id);
+        if (o.address === owner || o.ens === owner) duckies.push(id);
+    }
+    return duckies;
 }
 
 // Returns a number from 0-1 measuring the distance between

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- https://octal-crypto.github.io/crypto-duckies -->
+<!-- https://octal.art/crypto-duckies -->
 <html lang="en">
     <head>
         <title>Crypto Duckies</title>
@@ -37,6 +37,8 @@
                 box-sizing: border-box;
                 border-style: outset;
             }
+            .download { width:auto; border-color:black; border-width:2px }
+            .download:hover { border-width:3px !important; border-color:black !important; }
             #gear:hover { border-color: #ffbf00; }
             #gear {
                 border-color: transparent;
@@ -71,12 +73,12 @@
             }
             #idNumber, #owner {
                 padding-left:3px;
-                width:38%;
+                width:40%;
                 display:inline-block;
                 margin:8px 0px 0px 0px;
             }
             #searchId, #searchOwner {
-                width:60%;
+                width:58%;
                 display:inline-block;
                 margin:8px 0px 0px 0px;
             }
@@ -109,7 +111,7 @@
             }
             .trait-value:hover { border-color: #ffbf00;}
             .trait-list.open > .trait-value { display:block; } 
-            input { font-size:20px; }
+            input { font-size:20px; font-family: monospace; }
             input:focus {
                 border-color: #dba400;
                 outline-width: 0;
@@ -261,8 +263,6 @@
 
         <!-- <div id ="settings" class="hidden">
             Settings
-            <br><br><br><br><br><br>
-            Coming soon...
         </div>
         <div id="gear">
             <svg stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -278,9 +278,9 @@
                 <button id="searchId">Search ID</button>
                 <div style="display:inline-block;width:2%"></div>
                 <input class="button" id="idNumber" type="number" min="1" max="5000" placeholder="ID" />
-                <!-- <button id="searchOwner">Search Owner</button>
+                <button id="searchOwner">Search Owner</button>
                 <div style="display:inline-block;width:2%"></div>
-                <input class="button" id="owner" type="text" placeholder="ENS/address" /> -->
+                <input class="button" id="owner" type="text" placeholder="ENS/address" />
             </div>
             <br>
             <label class="button" id="searchPhoto">
@@ -304,6 +304,8 @@
         var photo = document.getElementById("photo");
         var idNumber = document.getElementById("idNumber");
         var searchId =  document.getElementById("searchId");
+        var searchOwner = document.getElementById("searchOwner");
+        var owner = document.getElementById("owner");
         var duckiesDiv = document.getElementById("duckies");
     
         var scrollListening = false;
@@ -387,6 +389,7 @@
                     // Search when trait value is clicked
                     traitValueDiv.onclick = function(i, traitValueDiv, type, value) {
                         return function() {
+                            owner.value = idNumber.value = null;
                             var checked = !traitValueDiv.classList.contains("checked");
                             if (!filters[type]) filters[type] = [];
                             if (checked) filters[type].push(value);
@@ -412,7 +415,7 @@
                                             title.innerHTML += ('<div class="trait-type-'+filter.toLowerCase() + ' trait-value-' + value.toLowerCase().replaceAll(/ /g, "-")) + '"></div>'
                                         });
                                     }
-                                    title.innerHTML += '</div><br>Found ' + matches.length + ' duckies.<br><br>';
+                                    title.innerHTML += '</div><br>Found ' + matches.length + ' duckies<br><br>';
                                     duckiesDiv.appendChild(title);
                                     requestAnimationFrame(function() {
                                         repaint();
@@ -451,7 +454,7 @@
             overviewPage.className = "page";
             var traitValues = [];
             var traits = Duckies.traits(id);
-            for (const trait in traits) {
+            for (var trait in traits) {
                 if (trait != "Background" && trait != "Trait Count" && traits[trait] != "None") {
                     traitValues.push(traits[trait]);
                 }
@@ -512,14 +515,60 @@
             linkPage.className = "hidden page";
             linkPage.innerHTML = '<br><ul><li>Opensea (<a href="https://opensea.io/assets/ethereum/0x495f947276749ce646f68ac8c248420045cb7b5e/' + Duckies.erc1155Id(id) + '">1155</a>' + (migrated ? (', <a href="https://opensea.io/assets/ethereum/0x922dc160f2ab743312a6bb19dd5152c1d3ecca33/' + id + '">721</a>'):"") + ')</li>' + (migrated ? (
                 '<li><a href="https://looksrare.org/collections/0x922dC160f2ab743312A6bB19DD5152C1D3Ecca33/' + id + '">LooksRare</a></li>') : '') + '<li><a href="https://rarity.tools/crypto-duckies/view/' +  Duckies.erc1155Id(id) + '">Rarity Tools</a></li><li>Etherscan (<a href="https://etherscan.io/token/0x495f947276749ce646f68ac8c248420045cb7b5e?a=' +  Duckies.erc1155Id(id) + '">1155</a>' +(migrated ? (', <a href="https://etherscan.io/token/0x922dc160f2ab743312a6bb19dd5152c1d3ecca33?a=' + id + '">721</a>'):'') + ')</li><li><a href="https://octal-crypto.github.io/snowcrash/?id=' + id + '">Snowcrash</a></li></ul>';
-            // 
             infoDiv.appendChild(linkPage);
 
             //
             var imagePage = document.createElement("div");
             imagePage.id = id +"-image-page";
             imagePage.className = "hidden page";
-            imagePage.textContent = "Image settings coming soon...";
+            imagePage.innerHTML = "<br><b>Download Image</b><br>";
+
+            var imagePageInput = document.createElement("input");
+            var imagePageDownload = document.createElement("button");
+            imagePageDownload.className = "download";
+            imagePageDownload.onclick = function() {
+                var link = document.createElement("a");
+                link.href = getCanvas(id, imagePageInput.value).toDataURL();
+                link.download = "Duckie-"+id;
+                link.click();
+            };
+
+            imagePageInput.style = "width:52px";
+            imagePageInput.min = 1;
+            imagePageInput.value = 1;
+            imagePageInput.type = "number";
+            imagePageInput.onkeyup = function() {
+                if (imagePageInput.value > 0) {
+                    var px = 24 * imagePageInput.value;
+                    imagePageDownload.textContent = "PNG ("+px+ " px)";
+                }
+            };
+            imagePageInput.onkeyup();
+
+            imagePage.appendChild(imagePageDownload);
+            var imagePageScale = document.createElement("span");
+            imagePageScale.textContent = "Scale:";
+            imagePage.appendChild(imagePageScale);
+            imagePage.appendChild(imagePageInput);
+
+            var imagePageDownloadSvg = document.createElement("button");
+            imagePageDownloadSvg.className = "download";
+            imagePageDownloadSvg.textContent = "SVG";
+            imagePage.appendChild(imagePageDownloadSvg);
+
+            imagePageDownloadSvg.onclick = function() {
+                var req = new XMLHttpRequest();
+                req.open("GET", "https://octal.art/crypto-duckies/data/duckies/duckie" + id + ".json");
+                req.onload = function() {
+                    var svg = JSON.parse(req.responseText).imageSVG;
+                    var link = document.createElement("a");
+                    link.href = "data:image/svg+xml," + encodeURIComponent(svg);
+                    link.download = "Duckie-"+id+".svg";
+                    link.click();
+                }
+                req.send();
+            };
+
             infoDiv.appendChild(imagePage);
 
             //
@@ -527,6 +576,11 @@
             rarityPage.id = id+"-rarity-page";
             rarityPage.className = "hidden page";
             rarityPage.textContent = "Rarity details coming soon...";
+            // var rarity = Duckies.rarity(id);
+            // rarityPage.innerHTML = "<b>Rarity Score: " + Math.round(rarity.reduce(function(p,c){return p+c},0)) + "</b><br>";
+            // for (var i=0; i < rarity.length; i++) {
+            //     rarityPage.innerHTML += Duckies.traitTypes[i] + "<br>";
+            // }
             infoDiv.appendChild(rarityPage);
             duckieDiv.appendChild(infoDiv);
 
@@ -592,6 +646,9 @@
         idNumber.onkeydown = function(e) {
             if (e.code == "Enter" || e.keyCode == 13) searchId.click();
         }
+        owner.onkeydown = function(e) {
+            if (e.code == "Enter" || e.keyCode == 13) searchOwner.click();
+        }
 
         function resetTraitHeaders() {
             Array.from(document.getElementsByClassName('trait-value')).forEach(tv => tv.classList.remove("checked"));
@@ -605,7 +662,7 @@
             removeScrollListeners();
             var id = parseInt(idNumber.value);
             if (id >= 1 && id <= 5000) {
-                idNumber.value = null;
+                owner.value = idNumber.value = null;
                 filters = {};
                 matches = [];
                 pageIndex = 0;
@@ -615,16 +672,32 @@
             }
         };
 
-        function getCanvas(id) {
+        // todo clear id when you search for owner??
+        // make sure all searches clear eachothers inputs??
+        // allow filtering owner and traits (and id???)
+        searchOwner.onclick = function() {
+            resetTraitHeaders(); // ??
+            matches = Duckies.searchOwner(owner.value);
+
+            // todo method for resetting filters, page params, matches, etc??
+            filters = {};
+            pageIndex = 0;
+            pageSize = 10;
+            duckiesDiv.innerHTML = "";
+            repaint();
+            addScrollListeners();
+        }
+
+        function getCanvas(id, scale=1) {
             var canvas = document.createElement('canvas');
-            canvas.width = 24;
-            canvas.height = 24;
+            canvas.width = 24 * scale;
+            canvas.height = 24 * scale;
             canvas.style="width:288px;height:288px;image-rendering: pixelated;"
             var ctx = canvas.getContext('2d');
-            var image = ctx.getImageData(0, 0, 24, 24);
-            image.data.set(getImage(id, 1));
+            var image = ctx.getImageData(0, 0, 24*scale, 24*scale);
+            image.data.set(getImage(id, scale));
             ctx.putImageData(image, 0, 0);
-            return canvas
+            return canvas;
         }
 
         function getColor(value){
@@ -633,6 +706,7 @@
 
         // Search photo
         photo.onchange = function(e) {
+            owner.value = idNumber.value = null;
             filters = {};
             resetTraitHeaders();
             img = new Image();
