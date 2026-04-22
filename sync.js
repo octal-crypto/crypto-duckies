@@ -80,7 +80,7 @@ async function syncOwners(fromBlock, toBlock) {
 
     // Query ERC-1155 transfer events
     const erc1155 = erc1155Api(web3);
-    const retriable = e => !["returned more than","size exceeded","server error","exceeds max block"].some(m=>e.toString().includes(m));
+    const retriable = e => !["returned more than","size exceeded","server error","exceeds max","ranges over"].some(m=>e.toString().includes(m));
     const erc1155Query = queryBlocks(fromBlock, toBlock, async (from, to) => [
         ...await retry(() => erc1155.getPastEvents("TransferSingle", {fromBlock:from, toBlock:to}), retriable),
         ...await retry(() => erc1155.getPastEvents("TransferBatch", {fromBlock:from, toBlock:to}), retriable)
