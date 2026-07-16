@@ -155,7 +155,9 @@ async function* queryBlocks(fromBlock, toBlock, fn) {
 /** Syncs ENS names of duckie owners */
 async function syncEns() {
     if (!process.env.ETH_RPC) throw "Set ETH_RPC environment variable";
-    const ens = ensApi(new Web3(new Web3.providers.HttpProvider(process.env.ETH_RPC)));
+    const web3 = new Web3(new Web3.providers.HttpProvider(process.env.ETH_RPC));
+    const resolver = universalResolverApi(web3);
+    const multicall = multicallApi(web3);
 
     // Find the set of unique addresses
     const addressSet = new Set();
@@ -165,12 +167,27 @@ async function syncEns() {
 
     // Reverse resolve their ENS names
     const addressList = Array.from(addressSet);
-    let names = await retry(() => ens.methods.getNames(addressList).call());
+    const calls = addressList.map(address => ({
+        target: resolver.options.address,
+        allowFailure: true,
+        callData: resolver.methods.reverse(address, 60).encodeABI()
+    }));
+    const results = await retry(() => multicall.methods.aggregate3(calls).call());
+
+    // Map owners to resolved names. Failed lookups have no usable name.
+    const names = new Map();
+    for (let i=0; i < results.length; i++) {
+        const result = results[i];
+        names.set(addressList[i], result.success
+            ? web3.eth.abi.decodeParameters(["string", "address", "address"], result.returnData)[0]
+            : ""
+        )
+    }
 
     // Rewrite data with the latest ENS names
     for (let id=1; id <= 5000; id++) {
         const duckie = readDuckie(id);
-        const name = names[addressList.indexOf(duckie.owner)]
+        const name = names.get(duckie.owner);
         if (name != (duckie.ens ?? "")) {
             console.log("Synced ENS name %s for address %s and duckie %d", name, duckie.owner, id);
         }
@@ -272,13 +289,42 @@ function erc1155Api(web3) {
 	}], "0x495f947276749ce646f68ac8c248420045cb7b5e");
 }
 
-/** ABI contract for ENS reverse records */
-function ensApi(web3) {
+/** ABI contract for the ENS Universal Resolver */
+function universalResolverApi(web3) {
     return new web3.eth.Contract([{
-        "name":"getNames", "type":"function", "stateMutability":"view",
-        "inputs": [{"internalType":"address[]", "name":"addresses", "type":"address[]"}],
-        "outputs": [{"internalType":"string[]", "name":"r", "type":"string[]"}]
-    }], "0x3671aE578E63FdF66ad4F3E12CC0c0d71Ac7510C");
+        "name":"reverse", "type":"function", "stateMutability":"view",
+        "inputs": [
+            {"internalType":"bytes", "name":"lookupAddress", "type":"bytes"},
+            {"internalType":"uint256", "name":"coinType", "type":"uint256"}
+        ],
+        "outputs": [
+            {"internalType":"string", "name":"primary", "type":"string"},
+            {"internalType":"address", "name":"resolver", "type":"address"},
+            {"internalType":"address", "name":"reverseResolver", "type":"address"}
+        ]
+    }], "0xeEeEEEeE14D718C2B47D9923Deab1335E144EeEe");
+}
+
+/** ABI contract for Multicall3 */
+function multicallApi(web3) {
+    return new web3.eth.Contract([{
+        "name":"aggregate3", "type":"function", "stateMutability":"payable",
+        "inputs": [{
+            "internalType":"struct Multicall3.Call3[]", "name":"calls", "type":"tuple[]",
+            "components": [
+                {"internalType":"address", "name":"target", "type":"address"},
+                {"internalType":"bool", "name":"allowFailure", "type":"bool"},
+                {"internalType":"bytes", "name":"callData", "type":"bytes"}
+            ]
+        }],
+        "outputs": [{
+            "internalType":"struct Multicall3.Result[]", "name":"returnData", "type":"tuple[]",
+            "components": [
+                {"internalType":"bool", "name":"success", "type":"bool"},
+                {"internalType":"bytes", "name":"returnData", "type":"bytes"}
+            ]
+        }]
+    }], "0xcA11bde05977b3631167028862bE2a173976CA11");
 }
 
 module.exports = {readDuckie};
