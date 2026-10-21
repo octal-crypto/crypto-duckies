@@ -79098,3 +79098,8 @@ Syncing blocks 26234992 to 26236444
 Synced to block 26236444
 Syncing blocks 26236445 to 26238334
 Synced to block 26238334
+Syncing blocks 26238335 to 26240627
+Synced ERC-1155 transaction 0x3aa057bc19f161cb32a52fb316fa19aef7c287f0546568be5277ee31826a8345: Duckie 489 to owner 0x15E2C149F882716DF5AF944946426df30aB961c1
+Synced ERC-1155 transaction 0x1ce2e1511833908828084cd982bef04e133351ae4a840d2895ceb5c184f3afc4: Duckie 489 to owner 0x583c6a698DcEF41dd588d577678a1c8045aF2025
+Synced ENS name mintblocks.eth for address 0x583c6a698DcEF41dd588d577678a1c8045aF2025 and duckie 489
+Synced to block 26240627
